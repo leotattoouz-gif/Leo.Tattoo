@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0a0707">
+<title>ЛЕО Tattoo — Ink Is Identity</title>
+<meta name="description" content="ЛЕО Tattoo — custom tattoo art and flash designs. Book your session online.">
+<meta property="og:title" content="ЛЕО Tattoo"><meta property="og:image" content="img/hero.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="util"><span data-i18n="tag"></span>
+ <div class="lang" role="group" aria-label="Language"><button data-l="ru">RU</button><button data-l="en">EN</button><button data-l="uz">UZ</button></div></div>
+<header class="nav"><a class="logo" href="#home">ЛЕ<b>О</b></a>
+ <nav id="menu"><a href="#home" data-i18n="n1"></a><a href="#about" data-i18n="n2"></a><a href="#gallery" data-i18n="n3"></a><a href="#booking" data-i18n="n4"></a><a href="#contact" data-i18n="n5"></a></nav>
+ <a class="btn" href="#booking" data-i18n="book"></a><button class="burger" id="burger" aria-label="Menu">☰</button></header>
+
+<section class="hero" id="home"><div class="moon"></div>
+ <div class="hero-t"><p class="kick">ЛЕО TATTOO <i>★</i></p>
+ <h1 data-i18n-html="h1"></h1><p class="lead" data-i18n="lead"></p>
+ <div class="cta"><a class="btn" href="#booking" data-i18n="book"></a><a class="link" href="#gallery" data-i18n="view"></a></div></div></section>
+
+<div class="ticker" aria-label="ЛЕО Tattoo — авторские татуировки"><div class="ticker-track"><div class="ticker-set"><b>ЛЕО TATTOO</b><i>◆</i><span data-i18n="tk1"></span><i>✦</i><span data-i18n="tk2"></span><i>◆</i><span data-i18n="tk3"></span><i>✦</i></div><div class="ticker-set" aria-hidden="true"><b>ЛЕО TATTOO</b><i>◆</i><span data-i18n="tk1"></span><i>✦</i><span data-i18n="tk2"></span><i>◆</i><span data-i18n="tk3"></span><i>✦</i></div></div></div>
+
+<section class="tiles">
+ <a href="#gallery"><svg viewBox="0 0 48 48"><path d="M24 4l5 15 15 5-15 5-5 15-5-15L4 24l15-5z"/></svg><h3 data-i18n="t1"></h3><p data-i18n="t1p"></p></a>
+ <a href="#booking"><svg viewBox="0 0 48 48"><path d="M6 8h36v34H6zM6 18h36M16 4v8M32 4v8"/></svg><h3 data-i18n="t2"></h3><p data-i18n="t2p"></p></a>
+ <a href="#about"><svg viewBox="0 0 48 48"><path d="M24 6c8 8 12 14 12 22a12 12 0 0 1-24 0c0-5 3-8 5-11 1 4 3 5 5 5 0-5-2-9 2-16z"/></svg><h3 data-i18n="t3"></h3><p data-i18n="t3p"></p></a>
+ <a href="#contact"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="19"/><path d="M24 11l4 9h9l-7 6 3 9-9-5-9 5 3-9-7-6h9z"/></svg><h3 data-i18n="t4"></h3><p data-i18n="t4p"></p></a></section>
+
+<section class="about" id="about"><div class="about-t"><p class="kick" data-i18n="a0"></p><h2 data-i18n-html="a1"></h2><p data-i18n="a2"></p><p data-i18n="a3"></p>
+ <a class="btn" href="#booking" data-i18n="book"></a></div><div class="about-i"><img src="img/leo.jpg" alt="ЛЕО" loading="lazy"></div></section>
+
+<section class="steps"><div><b>01</b><span data-i18n="s1"></span></div><div><b>02</b><span data-i18n="s2"></span></div><div><b>03</b><span data-i18n="s3"></span></div><div><b>04</b><span data-i18n="s4"></span></div></section>
+
+<section class="sec" id="gallery"><div class="head"><h2 data-i18n="g1"></h2><p data-i18n="g2"></p></div><div class="masonry" id="grid"></div></section>
+<div class="lb" id="lb" hidden><button class="x" id="lbx" aria-label="Close">×</button><button class="pv" id="lbp" aria-label="Previous">‹</button><img id="lbi" alt=""><button class="nx" id="lbn" aria-label="Next">›</button>
+ <div class="lbbar"><span id="lbt"></span><button class="btn" id="lbb" data-i18n="gb"></button></div></div>
+
+<section class="sec book" id="booking"><div class="head"><h2 data-i18n="b1"></h2><p data-i18n="b2"></p></div>
+ <form class="card" id="bf" novalidate>
+  <div class="wk"><button type="button" id="pw">‹</button><strong id="wl"></strong><button type="button" id="nw">›</button></div>
+  <div class="days" id="days"></div><div class="slots" id="slots"></div><p class="hint" id="hint"></p>
+  <div class="fields">
+   <input id="fn" required autocomplete="name" data-i18n-ph="fn"><input id="fp" required type="tel" autocomplete="tel" data-i18n-ph="fp">
+   <input id="fc" data-i18n-ph="fc"><input id="fe" type="email" data-i18n-ph="fe">
+   <input type="hidden" id="fd" value="">
+   <textarea id="fi" class="wide" data-i18n-ph="fi"></textarea>
+   <input id="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  </div>
+  <label class="chk"><input type="checkbox" id="ok"> <span data-i18n="ok"></span></label>
+  <button class="btn big" id="sb" type="submit" data-i18n="send"></button><div class="msg" id="msg" role="status"></div>
+ </form></section>
+
+<section class="sec faq"><div class="head"><h2 data-i18n="f0"></h2></div>
+ <details><summary data-i18n="q1"></summary><p data-i18n="a_1"></p></details><details><summary data-i18n="q2"></summary><p data-i18n="a_2"></p></details>
+ <details><summary data-i18n="q3"></summary><p data-i18n="a_3"></p></details><details><summary data-i18n="q4"></summary><p data-i18n="a_4"></p></details></section>
+
+<footer id="contact"><div><a class="logo" href="#home">ЛЕ<b>О</b></a><p data-i18n="ft"></p></div>
+ <div class="soc">
+  <a href="https://www.instagram.com/kaishi_tattoo/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="dot" cx="17.5" cy="6.8" r="1"/></svg><span>Instagram — Tattoo</span></a>
+  <a href="https://www.instagram.com/wenx.xz_/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="dot" cx="17.5" cy="6.8" r="1"/></svg><span>Instagram</span></a>
+  <a href="https://www.tiktok.com/@wnxz_wqn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="solid" d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v9.1a5.7 5.7 0 1 1-5-5.6v3.1a2.7 2.7 0 1 0 2 2.6V2.5h3a6.3 6.3 0 0 0 4.1 4.6z"/></svg><span>TikTok</span></a>
+  <a href="https://t.me/music_stayleo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="solid" d="M21.4 4.2 18.2 20c-.2 1.1-.8 1.4-1.7.9l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8.1c.4-.4-.1-.6-.6-.2L6.1 13.8l-4.7-1.5c-1-.3-1-1 .2-1.5L20 3.7c.9-.3 1.7.2 1.4.5z"/></svg><span>Telegram</span></a>
+  <a id="owner-email" href="mailto:leo.tattoo.uz@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg><span data-i18n="emailLabel">Написать Лео</span><span data-owner-address>leo.tattoo.uz@gmail.com</span></a>
+ </div>
+ <small>© 2026 ЛЕО Tattoo</small></footer>
+<div class="toast" id="toast"></div>
+<script src="js/config.js"></script><script src="js/gallery.js"></script><script src="js/app.js"></script>
+</body></html>
