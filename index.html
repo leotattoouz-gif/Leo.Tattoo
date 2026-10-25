@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0a0707">
-<title>ЛЕО Tattoo — Ink Is Identity</title>
-<meta name="description" content="ЛЕО Tattoo — custom tattoo art and flash designs. Book your session online.">
-<meta property="og:title" content="ЛЕО Tattoo"><meta property="og:image" content="img/hero.jpg">
+<title>ЛЕО Tattoo — тату-мастер в Ташкенте</title>
+<meta name="description" content="Тату-мастер Лео в Ташкенте. 680+ идей эскизов, индивидуальные работы и онлайн-запись.">
+<link rel="canonical" href="https://leotattoouz-gif.github.io/Leo.Tattoo/">
+<meta property="og:type" content="website"><meta property="og:url" content="https://leotattoouz-gif.github.io/Leo.Tattoo/"><meta property="og:title" content="ЛЕО Tattoo — Tashkent">
+<meta property="og:description" content="Tattoo artist Leo · Tashkent, Uzbekistan · by appointment"><meta property="og:image" content="https://leotattoouz-gif.github.io/Leo.Tattoo/img/hero.jpg"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TattooParlor","name":"ЛЕО Tattoo","url":"https://leotattoouz-gif.github.io/Leo.Tattoo/","image":"https://leotattoouz-gif.github.io/Leo.Tattoo/img/hero.jpg","email":"leo.tattoo.uz@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Tashkent","addressCountry":"UZ"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Sunday","Monday","Tuesday","Wednesday","Thursday"],"opens":"13:00","closes":"22:00"},"sameAs":["https://www.instagram.com/kaishi_tattoo/","https://t.me/kaishi_tattoo","https://www.tiktok.com/@wnxz_wqn"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -40,15 +43,20 @@
 <div class="lb" id="lb" hidden><button class="x" id="lbx" aria-label="Close">×</button><button class="pv" id="lbp" aria-label="Previous">‹</button><img id="lbi" alt=""><button class="nx" id="lbn" aria-label="Next">›</button>
  <div class="lbbar"><span id="lbt"></span><button class="btn" id="lbb" data-i18n="gb"></button></div></div>
 
+<div class="dp" id="dp" hidden><div class="dp-box" role="dialog" aria-modal="true" aria-labelledby="dpTitle">
+ <div class="dp-head"><div><strong id="dpTitle" data-i18n="dpT"></strong><small data-i18n="dpH"></small></div><button type="button" id="dpx" aria-label="Close">×</button></div>
+ <div class="dp-tabs" id="dpTabs"></div><div class="dp-grid" id="dpGrid"></div></div></div>
+
 <section class="sec book" id="booking"><div class="head"><h2 data-i18n="b1"></h2><p data-i18n="b2"></p></div>
  <form class="card" id="bf" novalidate>
   <div class="wk"><button type="button" id="pw">‹</button><strong id="wl"></strong><button type="button" id="nw">›</button></div>
-  <div class="days" id="days"></div><div class="slots" id="slots"></div><p class="hint" id="hint"></p>
+  <div class="days" id="days"></div><p class="hint" id="hint"></p>
   <div class="fields">
-   <input id="fn" required autocomplete="name" data-i18n-ph="fn"><input id="fp" required type="tel" autocomplete="tel" data-i18n-ph="fp">
-   <input id="fc" data-i18n-ph="fc"><input id="fe" type="email" data-i18n-ph="fe">
-   <input type="hidden" id="fd" value="">
-   <textarea id="fi" class="wide" data-i18n-ph="fi"></textarea>
+   <input id="fn" required autocomplete="name" maxlength="120" data-i18n-ph="fn"><input id="fp" required type="tel" autocomplete="tel" maxlength="40" data-i18n-ph="fp">
+   <input id="fc" maxlength="80" autocapitalize="off" data-i18n-ph="fc"><input id="fe" type="email" autocomplete="email" maxlength="254" data-i18n-ph="fe">
+   <div class="pick wide"><div class="pick-prev" id="pp" hidden><span class="ppi" id="ppi"></span><span id="ppt"></span><button type="button" id="ppx" aria-label="Remove">×</button></div>
+    <button type="button" class="btn ghost" id="pb"></button><small data-i18n="pbh"></small></div>
+   <textarea id="fi" class="wide" maxlength="1500" data-i18n-ph="fi"></textarea>
    <input id="hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
   </div>
   <label class="chk"><input type="checkbox" id="ok"> <span data-i18n="ok"></span></label>
@@ -64,10 +72,11 @@
   <a href="https://www.instagram.com/kaishi_tattoo/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="dot" cx="17.5" cy="6.8" r="1"/></svg><span>Instagram — Tattoo</span></a>
   <a href="https://www.instagram.com/wenx.xz_/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="dot" cx="17.5" cy="6.8" r="1"/></svg><span>Instagram</span></a>
   <a href="https://www.tiktok.com/@wnxz_wqn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="solid" d="M19.6 7.1a6.5 6.5 0 0 1-4.1-1.5v9.1a5.7 5.7 0 1 1-5-5.6v3.1a2.7 2.7 0 1 0 2 2.6V2.5h3a6.3 6.3 0 0 0 4.1 4.6z"/></svg><span>TikTok</span></a>
-  <a href="https://t.me/music_stayleo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="solid" d="M21.4 4.2 18.2 20c-.2 1.1-.8 1.4-1.7.9l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8.1c.4-.4-.1-.6-.6-.2L6.1 13.8l-4.7-1.5c-1-.3-1-1 .2-1.5L20 3.7c.9-.3 1.7.2 1.4.5z"/></svg><span>Telegram</span></a>
-  <a id="owner-email" href="mailto:leo.tattoo.uz@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg><span data-i18n="emailLabel">Написать Лео</span><span data-owner-address>leo.tattoo.uz@gmail.com</span></a>
+  <a href="https://t.me/kaishi_tattoo" target="_blank" rel="noopener" data-tg><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="solid" d="M21.4 4.2 18.2 20c-.2 1.1-.8 1.4-1.7.9l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.4-4.9 8.9-8.1c.4-.4-.1-.6-.6-.2L6.1 13.8l-4.7-1.5c-1-.3-1-1 .2-1.5L20 3.7c.9-.3 1.7.2 1.4.5z"/></svg><span>Telegram — @kaishi_tattoo</span></a>
+  <a id="owner-email" href="mailto:leo.tattoo.uz@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></svg><span data-i18n="emailLabel">Написать Лео</span><span class="addr">leo.tattoo.uz@gmail.com</span></a>
+  <span class="loc"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span data-i18n="loc">Ташкент, Узбекистан</span></span>
  </div>
  <small>© 2026 ЛЕО Tattoo</small></footer>
 <div class="toast" id="toast"></div>
-<script src="js/config.js"></script><script src="js/gallery.js"></script><script src="js/app.js"></script>
+<script src="js/config.js"></script><script src="js/gallery.js"></script><script src="js/designs.js"></script><script src="js/app.js"></script>
 </body></html>

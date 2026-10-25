@@ -1,9 +1,9 @@
 // ===== LEO TATTOO — settings (see README) =====
 window.LEO_CONFIG = {
-  supabaseUrl: "",      // e.g. https://xxxx.supabase.co
-  supabaseAnonKey: "",  // Supabase "anon public" key (safe to publish)
-  web3formsKey: "",     // free key from web3forms.com -> booking arrives in Leo's email
+  // URL of the Cloudflare Worker that forwards bookings to Leo's Telegram
+  // (see worker/README). Leave empty and the form asks visitors to message Leo directly.
+  bookingEndpoint: "",
+  telegram: "kaishi_tattoo",          // Leo's Telegram username (without @)
   ownerEmail: "leo.tattoo.uz@gmail.com",
-  telegram: "music_stayleo",
   timezone: "Asia/Tashkent"
 };

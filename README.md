@@ -1,30 +1,65 @@
 # ЛЕО Tattoo — website
 
-Responsive tattoo artist website in Russian (default), English and Uzbek. The AI section and AI code are not included. Tattoo gallery, lightbox, animated ticker and appointment booking are included.
+Responsive tattoo artist website (Tashkent, Uzbekistan) in Russian (default), English and Uzbek.
+Live: https://leotattoouz-gif.github.io/Leo.Tattoo/
 
-## Publish the static website
+## What is inside
 
-The site can be hosted on GitHub Pages, Netlify or another static host.
+- `index.html`, `css/`, `js/app.js` — the site.
+- `img/g/` — the 22 idea sheets (full size), `img/t/` — their previews.
+- `img/d/` — **680 single designs** cut out of the sheets (`SS-NN.jpg`, e.g. `05-12` = sheet 05, design 12), `img/d/th/` — their thumbnails. `js/designs.js` lists how many designs each sheet has.
+- `worker/worker.js` — the small Cloudflare Worker that forwards every booking to Leo's Telegram.
+- `js/config.js` — settings (booking endpoint, Telegram username, email, timezone).
 
-1. Create a new public or private GitHub repository and upload the **contents** of this folder (keep `index.html` at the repository root).
-2. In GitHub, open **Settings → Pages**, choose **Deploy from a branch**, select `main` and `/ (root)`, then save.
-3. GitHub shows the public URL in the Pages settings after the first deployment. The URL depends on your GitHub username and repository, so it cannot be created in advance.
+## How booking works
 
-## Enable persistent online booking
+1. The visitor picks a **day** (Sunday–Thursday, up to 8 weeks ahead, Tashkent time — the calendar moves forward automatically; no hours are chosen).
+2. Fills in name and phone (required), Telegram/Instagram username and email (optional), can pick **one exact design** from the idea sheets (optional) and describe the idea (optional).
+3. "Send" posts the form to the Worker, which sends Leo a Telegram message with all details, plus the chosen design picture as a reply.
+4. Visitors with their own picture are told to send it to Leo on Telegram @kaishi_tattoo.
+5. A day is never blocked by a request — several clients can ask for the same day; Leo decides. Leo can mark days as **busy** from Telegram; they show on the site with ✕ "Занято / Busy / Band" and cannot be chosen.
 
-Booking is intentionally unavailable until Supabase is configured. This avoids showing fictional free times or accepting requests that are not saved.
+## Busy days — commands Leo sends to the bot
 
-1. Create a Supabase project and run `supabase/schema.sql` once in its SQL Editor.
-2. In **Project Settings → API**, copy the Project URL and `anon` public key into `js/config.js` as `supabaseUrl` and `supabaseAnonKey`. The anon key is designed for browser use; never put a `service_role` key in this static site.
-3. Publish the site again. Free slots are now read from the shared database and refreshed every 30 seconds while the page is open. A database uniqueness rule prevents two customers from taking the same slot at once. Canceled reservations make that slot available again.
-4. Leo can review requests in Supabase → **Table Editor → bookings** and change `status` to `confirmed` or `cancelled`.
+| Command | What it does |
+|---|---|
+| `/close 27` | closes the 27th (next coming 27th) |
+| `/close 25 26 27` or `/close 25-27` | closes several days |
+| `/close 3.11`, `/close 3.11-7.11`, `/close 2026-11-03` | other date formats |
+| `/close` | closes today |
+| `/open 27` | opens a day again (same formats) |
+| `/list` | shows all closed days |
 
-Leo's contact email is `leo.tattoo.uz@gmail.com` and is shown as a mail link in the footer. To receive an email notification for a new request at that address, create a Web3Forms access key for the same email and set it in `js/config.js` as `web3formsKey`. The email includes the booking reference, name, phone, optional social contact and email, tattoo idea, chosen gallery design (if any), and appointment date and time. The site reports when an appointment is saved but its email alert could not be sent. Supabase remains the reservation record even if email notification is not configured.
+Past days are removed automatically. Each booking message ends with a ready `/close <that day>` hint.
 
-## Site details to confirm before sharing
+While `bookingEndpoint` in `js/config.js` is empty, the form does not pretend to work — it tells visitors to message Leo on Telegram.
 
-- Current hours: Sunday–Thursday, 13:00–22:00 in Asia/Tashkent; the 22:00 booking is a start time.
-- Add or correct the studio location and contact links in `index.html` and `js/config.js`.
-- Make sure you have permission to publish every image in `img/`.
-- Russian is the default for new visitors. Visitors can switch to English or Uzbek; a previously saved language preference is retained if it is one of those three.
+## One-time setup of the Telegram booking (about 10 minutes)
+
+**A. Create the bot**
+1. In Telegram open **@BotFather** → `/newbot` → choose a name (e.g. `LEO Tattoo Booking`) and a username ending in `bot`.
+2. Copy the **token** it gives you. Keep it secret — never put it in this repository.
+3. From Leo's account **@kaishi_tattoo**, open the new bot, press **START** and send `hi`. (A bot can only write to people who started it.)
+
+**B. Create the Worker (free)**
+1. Sign up at https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Create Worker** → name it `leo-booking` → **Deploy**.
+2. **Edit code**, delete everything, paste the whole content of `worker/worker.js`, **Deploy**.
+3. **Settings → Variables and Secrets → Add** → type *Secret*, name `BOT_TOKEN`, value = the token → Deploy.
+4. Open `https://leo-booking.<your-subdomain>.workers.dev/chat-id` in a browser. It lists who pressed START — copy the number next to Leo's account.
+5. Add a second *Secret* `CHAT_ID` with that number → Deploy.
+6. **Busy-days storage:** Cloudflare → **Storage & Databases → KV → Create** a namespace called `leo-days`. Then in the Worker → **Settings → Bindings → Add → KV namespace**, variable name `KV`, choose `leo-days` → Deploy.
+7. Open `https://leo-booking.<your-subdomain>.workers.dev/setup` once. The bot sends Leo a message with the commands. Opening the worker URL now shows `BOT_TOKEN: ok`, `CHAT_ID: ok`, `KV: ok`.
+   (Do step 4 before step 7 — after /setup the `/chat-id` page no longer works.)
+
+**C. Connect the site**
+1. In `js/config.js` set `bookingEndpoint: "https://leo-booking.<your-subdomain>.workers.dev/"` and commit.
+2. Wait ~1 minute for GitHub Pages, open the site, send a test booking — it arrives in @kaishi_tattoo's Telegram.
+
+If you later use your own domain, add it to the Worker as a variable `EXTRA_ORIGINS` (e.g. `https://leotattoo.uz`).
+
+## Details to keep up to date
+
+- Hours shown: Sunday–Thursday, 13:00–22:00, by appointment only (Tashkent). Change the texts `b2` in `js/app.js` if they change.
+- Contacts are in the footer of `index.html`: Instagram `kaishi_tattoo`, Instagram `wenx.xz_`, TikTok `wnxz_wqn`, Telegram `kaishi_tattoo`, email `leo.tattoo.uz@gmail.com`.
+- The idea sheets are reference images collected from the internet; the site presents them as ideas Leo can tattoo, not as his own artwork.
 - Local preview needs Node.js 20+: run `node preview-server.mjs` and open `http://127.0.0.1:4176`.
