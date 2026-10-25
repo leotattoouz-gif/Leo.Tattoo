@@ -21,7 +21,7 @@ function todayTZ() {
 }
 const dayDiff = (a, b) => Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 864e5);
 const validDate = k => /^\d{4}-\d{2}-\d{2}$/.test(k) && new Date(k + 'T12:00:00Z').toISOString().slice(0, 10) === k;
-const nice = k => new Date(k + 'T12:00:00Z').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+const nice = k => new Date(k + 'T12:00:00Z').toLocaleDateString('ru-RU', { weekday: 'short', day: 'numeric', month: 'long', timeZone: 'UTC' });
 
 async function tg(env, method, body) {
   const r = await fetch(`https://api.telegram.org/bot${env.BOT_TOKEN}/${method}`, {
@@ -78,16 +78,16 @@ function parseDates(text) {
 }
 
 const HELP = [
-  '🗓 <b>Busy days / Занятые дни</b>',
+  '🗓 <b>Занятые дни</b>',
   '',
-  '<code>/close 27</code> — close the 27th (✕ on the site)',
-  '<code>/close 25 26 27</code> or <code>/close 25-27</code>',
+  '<code>/close 27</code> — закрыть 27-е число (на сайте будет ✕ «Занято»)',
+  '<code>/close 25 26 27</code> или <code>/close 25-27</code> — закрыть несколько дней',
   '<code>/close 3.11</code> · <code>/close 3.11-7.11</code> · <code>/close 2026-11-03</code>',
-  '<code>/close</code> — close today',
-  '<code>/open 27</code> — open a day again (same formats)',
-  '<code>/list</code> — show closed days',
+  '<code>/close</code> — закрыть сегодня',
+  '<code>/open 27</code> — снова открыть день (те же форматы)',
+  '<code>/list</code> — список закрытых дней',
   '',
-  'Bookings from the website arrive here automatically.'
+  'Заявки с сайта приходят сюда автоматически.'
 ].join('\n');
 
 async function handleTelegram(update, env) {
@@ -96,17 +96,17 @@ async function handleTelegram(update, env) {
   if (String(msg.chat.id) !== String(env.CHAT_ID)) return; // only Leo can manage days
   const reply = text => tg(env, 'sendMessage', { chat_id: env.CHAT_ID, text, parse_mode: 'HTML' });
   const [cmdRaw, ...rest] = msg.text.trim().split(/\s+/), cmd = cmdRaw.toLowerCase().replace(/@.*$/, ''), arg = rest.join(' ');
-  if (!env.KV) return reply('⚠️ KV storage is not connected to the worker yet (see README, step B6).');
+  if (!env.KV) return reply('⚠️ Хранилище KV ещё не подключено к воркеру (см. README, шаг B6).');
   if (cmd === '/close' || cmd === '/open') {
     const { dates, bad } = arg ? parseDates(arg) : { dates: [todayTZ()], bad: [] };
-    if (!dates.length) return reply(`❓ No valid future dates found${bad.length ? ': ' + esc(bad.join(' ')) : ''}.\n\n` + HELP);
+    if (!dates.length) return reply(`❓ Не нашёл подходящих будущих дат${bad.length ? ': ' + esc(bad.join(' ')) : ''}.\n\n` + HELP);
     let list = await getClosed(env);
     list = cmd === '/close' ? list.concat(dates) : list.filter(k => !dates.includes(k));
     await setClosed(env, list);
-    const shown = [...new Set(dates)].sort().map(nice).join(', ');
-    return reply(`${cmd === '/close' ? '✕ Closed' : '✅ Opened'}: ${shown}${bad.length ? `\n(ignored: ${esc(bad.join(' '))})` : ''}\n\nNow closed: ${(await getClosed(env)).map(nice).join(', ') || '—'}`);
+    const shown = [...new Set(dates)].sort().map(nice).join(' · ');
+    return reply(`${cmd === '/close' ? '✕ Закрыто' : '✅ Открыто'}: ${shown}${bad.length ? `\n(не понял: ${esc(bad.join(' '))})` : ''}\n\nСейчас закрыты: ${(await getClosed(env)).map(nice).join(' · ') || '—'}`);
   }
-  if (cmd === '/list') { const l = await getClosed(env); return reply(l.length ? '✕ Closed days:\n' + l.map(nice).join('\n') : 'No closed days. All Sun–Thu days are open.'); }
+  if (cmd === '/list') { const l = await getClosed(env); return reply(l.length ? '✕ Закрытые дни:\n' + l.map(nice).join('\n') : 'Закрытых дней нет. Все дни Вс–Чт открыты.'); }
   if (cmd === '/start' || cmd === '/help') return reply(HELP);
 }
 
@@ -152,11 +152,11 @@ export default {
       if (!env.BOT_TOKEN || !env.CHAT_ID) return text('Set BOT_TOKEN and CHAT_ID first.');
       const r = await tg(env, 'setWebhook', { url: `${url.origin}/tg`, secret_token: await hookSecret(env), allowed_updates: ['message', 'edited_message'], drop_pending_updates: true });
       await tg(env, 'setMyCommands', { commands: [
-        { command: 'close', description: 'Close day(s): /close 25 26 or /close 25-27' },
-        { command: 'open', description: 'Open day(s) again: /open 26' },
-        { command: 'list', description: 'Show closed days' },
-        { command: 'help', description: 'How to use' }] });
-      if (r.ok) await tg(env, 'sendMessage', { chat_id: env.CHAT_ID, text: '✅ Booking bot connected.\n\n' + HELP, parse_mode: 'HTML' });
+        { command: 'close', description: 'Закрыть день: /close 25 26 или /close 25-27' },
+        { command: 'open', description: 'Открыть день снова: /open 26' },
+        { command: 'list', description: 'Список закрытых дней' },
+        { command: 'help', description: 'Как пользоваться' }] });
+      if (r.ok) await tg(env, 'sendMessage', { chat_id: env.CHAT_ID, text: '✅ Бот записи подключён.\n\n' + HELP, parse_mode: 'HTML' });
       return text(r.ok ? 'Done! The bot sent Leo a message with the commands.' + (env.KV ? '' : '\n\n⚠️ KV is not bound yet — /close will not work until you add it.') : 'Telegram error: ' + JSON.stringify(r));
     }
     if (req.method === 'GET') return text(`ЛЕО Tattoo booking service\nBOT_TOKEN: ${env.BOT_TOKEN ? 'ok' : 'missing'}\nCHAT_ID: ${env.CHAT_ID ? 'ok' : 'missing'}\nKV (busy days): ${env.KV ? 'ok' : 'missing'}`);
@@ -182,26 +182,26 @@ export default {
 
     recent.push(now); hits.set(ip, recent);
     const ref = 'LT-' + now.toString(36).slice(-5).toUpperCase();
-    const dayTxt = new Date(f.day + 'T12:00:00Z').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+    const dayTxt = new Date(f.day + 'T12:00:00Z').toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
     const handle = f.contact.replace(/^@/, '');
     const lines = [
-      `🖋 <b>New booking request</b> · <code>${ref}</code>`, '',
-      `📅 <b>Day:</b> ${esc(dayTxt)}`,
-      `👤 <b>Name:</b> ${esc(f.name)}`,
-      `📞 <b>Phone:</b> ${esc(f.phone)}`,
+      `🖋 <b>Новая заявка</b> · <code>${ref}</code>`, '',
+      `📅 <b>День:</b> ${esc(dayTxt)}`,
+      `👤 <b>Имя:</b> ${esc(f.name)}`,
+      `📞 <b>Телефон:</b> ${esc(f.phone)}`,
       `💬 <b>Telegram / Instagram:</b> ${f.contact ? esc(f.contact) + (/^[A-Za-z0-9_.]{3,40}$/.test(handle) ? ` (<a href="https://t.me/${esc(handle)}">TG</a> · <a href="https://instagram.com/${esc(handle)}">IG</a>)` : '') : '—'}`,
       `✉️ <b>Email:</b> ${f.email ? esc(f.email) : '—'}`,
-      `🎨 <b>Design:</b> ${f.design ? `${f.design} (picture below)` : 'own idea / not chosen'}`,
-      `📝 <b>Idea:</b> ${f.idea ? esc(f.idea) : '—'}`,
-      `🌐 <b>Site language:</b> ${f.lang.toUpperCase()}`, '',
-      `<i>Busy that day? Reply</i> <code>/close ${f.day}</code>`
+      `🎨 <b>Эскиз:</b> ${f.design ? `${f.design} (картинка ниже)` : 'своя идея / не выбран'}`,
+      `📝 <b>Идея:</b> ${f.idea ? esc(f.idea) : '—'}`,
+      `🌐 <b>Язык сайта:</b> ${f.lang.toUpperCase()}`, '',
+      `<i>Этот день занят? Отправьте</i> <code>/close ${f.day}</code>`
     ];
     const m = await tg(env, 'sendMessage', { chat_id: env.CHAT_ID, text: lines.join('\n'), parse_mode: 'HTML', disable_web_page_preview: true });
     if (!m.ok) return json({ ok: false, error: 'telegram' }, 502);
     if (f.design) {
       await tg(env, 'sendPhoto', {
         chat_id: env.CHAT_ID, photo: `${SITE}img/d/${f.design}.jpg`,
-        caption: `🎨 Design ${f.design} · ${ref}`, reply_to_message_id: m.result.message_id
+        caption: `🎨 Эскиз ${f.design} · ${ref}`, reply_to_message_id: m.result.message_id
       });
     }
     return json({ ok: true, ref });
