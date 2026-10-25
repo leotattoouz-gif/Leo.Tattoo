@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leotattoouz-gif.github.io/Leo.Tattoo/sitemap.xml
